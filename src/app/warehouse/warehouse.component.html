@@ -1,0 +1,143 @@
+<div class="container">
+    <div class="row mt-5">
+        <div class="text-center">
+        <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            اضافة منتج 
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive mt-5">
+        <table class="table" >
+          <thead>
+            <tr>
+                <th scope="col">{{ "مسح/تعديل"  }}</th>
+                <th scope="col">{{ "السعر الكلى"  }}</th>
+                <th scope="col">{{ "الكمية"  }}</th>
+                <th scope="col">{{ "سعر الوحدة"  }}</th>
+                <th scope="col">{{ "الأسم"  }}</th>
+                
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let product of productsList"
+            >
+              <td class="editDelete">
+                <button
+                  class="btn btn-primary me-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  (click)="onEdit(product)"
+                >
+                  {{ "تعديل"  }}
+                </button>
+                <button
+                  class="btn btn-danger deleteBtn"
+                  (click)="onDelete(product)"
+                >
+                  {{ "مسح"  }}
+                </button>
+              </td>
+              <td>{{ product.productAmount*product.productCost }}</td>
+              <td>{{ product.productAmount }}</td>
+              <td>{{ product.productCost  }}</td>
+              <td>{{ product.productName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+  
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">اضافة منتج جديد</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="productForm">
+                <div class="mb-3 text-center">
+                  <label for="productName" class="form-label">{{
+                    "اسم المنتج" 
+                  }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productName"
+                    aria-describedby="emailHelp"
+                    formControlName="productName"
+                  />
+                  <p
+                    class="text-danger"
+                    *ngIf="
+                      productForm.controls['productName'].dirty &&
+                      productForm.hasError('required', 'productName')
+                    "
+                  >
+                    *من فضلك ادخل الأسم*
+                  </p>
+                </div>
+                <div class="mb-3 text-center">
+                  <label for="productCost" class="form-label">{{
+                    "سعر المنتج" 
+                  }}</label>
+
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                    type="number"
+                    class="form-control"
+                    id="productCost"
+                    formControlName="productCost"
+                  />
+                  </div>
+                  
+                  <p
+                    class="text-danger"
+                    *ngIf="
+                      productForm.controls['productCost'].dirty &&
+                      productForm.hasError('required', 'productCost')
+                    "
+                  >
+                    *من فضلك ادخل السعر*
+                  </p>
+                </div>
+                
+                <div class="mb-3 text-center">
+                  <label for="productAmount" class="form-label">{{
+                    "الكمية" 
+                  }}</label>
+                  
+                    
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="productAmount"
+                      formControlName="productAmount"
+                    />
+                 
+                  <p
+                    class="text-danger"
+                    *ngIf="
+                      productForm.controls['productAmount'].dirty &&
+                      productForm.hasError('required', 'productAmount')
+                    "
+                  >
+                    *من فضلك ادخل الكمية*
+                  </p>
+                </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close" (click)="close()">غلق</button>
+          <button *ngIf="!editMode" type="button" class="btn btn-primary" [disabled]="!productForm.valid" (click)="addProduct()">اضافة</button>
+          <button *ngIf="editMode" type="button" class="btn btn-primary" [disabled]="!productForm.valid" (click)="EditProduct()">تعديل</button>
+        </div>
+      </div>
+    </div>
+  </div>

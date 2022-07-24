@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="table-responsive mt-5 ">
+        <table class="table" >
+          <thead>
+            <tr>
+                <th scope="col"> {{ " التاريخ"  }}</th>
+                <th scope="col"> {{ " السعر الكلى"  }}</th>
+                <th scope="col"> {{ " كمية المنتج"  }}</th>
+                <th scope="col"> {{ "سعر المنتج"  }}</th>
+                <th scope="col">{{ "اسم المنتج"  }}</th>
+                <th scope="col">{{ "الأسم"  }}</th>
+                
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let receipt of receipts" >
+                <td>
+                    {{receipt.dayDate | date:'dd MMM YYYY'}}
+                </td>
+                <td>
+                  <div *ngFor="let soldProduct of receipt.soldProducts"> 
+                      <span>{{soldProduct.productCost*soldProduct.productAmount}}</span>
+                  <br>
+                  </div>
+              </td>
+                <td>
+                  <div *ngFor="let soldProduct of receipt.soldProducts"> 
+                      <span>{{soldProduct.productAmount}}</span>
+                  <br>
+                  </div>
+              </td>
+                <td>
+                    <div *ngFor="let soldProduct of receipt.soldProducts"> 
+                        <span>{{soldProduct.productCost}}</span>
+                    <br>
+                    </div>
+                </td>
+
+                <td>
+                <div *ngFor="let soldProduct of receipt.soldProducts"> 
+                    <span>{{soldProduct.productName}}</span>
+                <br>
+                </div>
+                </td>
+                <td>{{ receipt.clientName }}</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
+    
+</div>
